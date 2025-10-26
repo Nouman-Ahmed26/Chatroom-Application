@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(45deg, #ff5733, #33a2ff);
+    transition: background 1s ease;
+  }
+
+  @keyframes gradientAnimation {
+    0% {
+      background: linear-gradient(45deg, #ff5733, #33a2ff);
+    }
+    100% {
+      background: linear-gradient(45deg, #33a2ff, #ff5733);
+    }
+  }
+</style>
+
+<div class="message-box">
+    <h2>Chat Room: {{ code }}</h2>
+    <div class="messages" id="messages"></div>
+    <div class="inputs">
+      <textarea rows="1" placeholder="Message" name="message" id="message"></textarea>
+      <button type="button" name="send" id="send-btn" onclick="sendMessage()">↝</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+  var socketio = io();
+  const messages = document.getElementById("messages");
+
+  const createMessage = (name, msg) => {
+    const isCurrentUser = name === "{{ session.get('name') }}";
+    const textClass = isCurrentUser ? "text-right own-message" : "text-left other-message";
+  
+    msg = msg.replace(/\n/g, '<br>');
+  
+    const displayName = isCurrentUser ? "You" : name;
+  
+    const content = `
+      <div class="text ${textClass}">
+        <span>
+          <strong>${displayName}:</strong> ${msg}
+        </span>
+        <span class="muted">
+          ${new Date().toLocaleString()}
+        </span>
+      </div>
+    `;
+    messages.innerHTML += content;
+    messages.scrollTop = messages.scrollHeight;
+  };
+
+  socketio.on("message", (data) => {
+    createMessage(data.name, data.message);
+  });
+
+  const sendMessage = () => {
+    const messageInput = document.getElementById("message");
+    const messageValue = messageInput.value.trim();
+  
+    if (messageValue !== "") {
+      socketio.emit("message", { data: messageValue });
+      messageInput.value = "";
+    }
+  };
+
+  document.getElementById("message").addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // Add JavaScript to dynamically update background color
+  const body = document.body;
+  setInterval(() => {
+    body.style.background = body.style.background === 'linear-gradient(45deg, #ff5733, #33a2ff)' 
+      ? 'linear-gradient(45deg, #33a2ff, #ff5733)' 
+      : 'linear-gradient(45deg, #ff5733, #33a2ff)';
+  }, 5000); // Change the color every 5 seconds (adjust as needed)
+</script>
+{% endblock %}

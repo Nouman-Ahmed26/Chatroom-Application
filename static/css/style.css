@@ -1,0 +1,205 @@
+/* General styles for all screen sizes */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #290453d7; /* Dark background color */
+}
+
+canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.buttons { /*home page thingy*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 50px;
+    background: rgba(255, 255, 255, 0.595); /* Slightly transparent white background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #ff0000;
+    position: relative;
+    z-index: 5;
+}
+
+.content {
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-wrap: break-word; /* Allow words to break into new lines */
+}
+
+.join, .name {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 5px; /* Add some space between input sections */
+}
+
+.create-btn {
+    width: 100%; /* Use 100% width for consistency */
+    background-color: #ff4d4d; /* Red color for the button */
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for better user experience */
+}
+
+.create-btn:hover {
+    background-color: #e60000; /* Darker red on hover */
+}
+
+.muted {
+    font-size: 10px;
+    color: #8e8e8e;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+/*Room.html*/
+.message-box {
+    height: 87vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h2 {
+    text-decoration:underline;
+    text-align: center;
+    position: fixed;
+    color: #e60000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color:#000000; /* Set a background color to make it readable */
+    z-index: 1; /* Set a higher z-index to keep it above other elements */
+    padding: 10px;
+    box-shadow: 0px 0px 10px rgba(255, 61, 61, 0.479);
+  }
+
+  .messages {
+   
+    flex: 1;
+    overflow-y: auto;
+    margin-top: 50px; /* Adjust margin-top to account for fixed h2 */
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+
+
+ 
+   
+
+
+  .text {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .text span {
+    display: block;
+  }
+
+  .own-message{
+  background-color:  #7ce29c; /* Green background for the user's own messages */
+  box-shadow: #7ce29c;
+  color: rgb(0, 0, 0);
+  border-radius: 20px;
+  padding: 8px;
+  margin-left: auto; /* Push the user's own messages to the right */
+  max-width: 70%; /* Limit the width of the message box for better readability*/ 
+}
+
+.other-message {
+  background-color: #ffffffa9; /* Dark gray color for messages from other users */
+  color: #000000;
+  border-radius: 20px;
+  max-width: 70%; 
+  padding: 8px;
+  margin-right: auto;
+}
+
+  .inputs {
+    display: flex;
+    align-items: center;
+  }
+
+  textarea {
+    flex: 1;
+    resize: none;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #3897f0;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #send-btn {
+    background-color: #ff4d4d; /* Red color for the button */
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#send-btn:hover {
+    background-color: #e60000;
+}
+
+  /*end of room.html*/
+/*mobiles*/
+  @media only screen and (max-width: 600px) {
+   
+    
+    
+    h2 {
+        font-size: 1.2em;
+    }
+
+    .muted {
+        font-size: 8px;
+    }
+
+    #message {
+        padding: 8px;
+    }
+
+    .inputs {
+        padding: 8px;
+    }
+
+    .text {
+        padding: 8px;
+    }
+}

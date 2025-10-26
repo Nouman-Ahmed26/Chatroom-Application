@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" />
+    <title>ChatRoom -NR</title>
+</head>
+<body>
+    <canvas id="backgroundCanvas"></canvas>
+    
+    <div class="content">
+        <form method="post" class="buttons">
+            <h3>Enter The Chat Room</h3>
+            <div class="name">
+                <label for="name">Name:</label>
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter Name!"
+                    name="name"
+                    value="{{ name }}"
+                />
+            </div>
+            <div class="join">
+                <label for="code">Room Code:</label>
+                <input 
+                    type="text"
+                    id="code" 
+                    placeholder="Enter Room Code:" 
+                    name="code" 
+                    value="{{ code }}" 
+                />
+            </div>
+            <div class="gender">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <button type="submit" name="join" class="create-btn">Join a Room</button>
+            <button type="submit" name="create" class="create-btn">Create a Room</button>
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+        </form>
+    </div>
+    <script>
+        const canvas = document.getElementById('backgroundCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const circles = [];
+        const numCircles = 50;
+
+        for (let i = 0; i < numCircles; i++) {
+            circles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 30 + 10,
+                color: getRandomColor(),
+                speedX: (Math.random() - 0.5) * 2,
+                speedY: (Math.random() - 0.5) * 2,
+            });
+        }
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function drawBackground() {
+            for (const circle of circles) {
+                ctx.beginPath();
+                ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+                ctx.fillStyle = circle.color;
+                ctx.fill();
+                ctx.closePath();
+
+                circle.x += circle.speedX;
+                circle.y += circle.speedY;
+
+                if (circle.x - circle.radius < 0 || circle.x + circle.radius > canvas.width) {
+                    circle.speedX *= -1;
+                }
+
+                if (circle.y - circle.radius < 0 || circle.y + circle.radius > canvas.height) {
+                    circle.speedY *= -1;
+                }
+            }
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackground();
+            requestAnimationFrame(update);
+        }
+
+        function init() {
+            update();
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        init();
+    </script>
+</body>
+</html>
